@@ -1,0 +1,4 @@
+0.03 (01.31.2010) - John Ingram <john@funnycow.com>
+
+  * Added the "Changes" file (this file)
+  * Added essential POD to the main Data::Maker package
