@@ -4,38 +4,17 @@ use Moose;
 use MooseX::AttributeHelpers;
 use Data::Maker::Field::Format;
 
-our $VERSION = '0.03';
+our $VERSION = '0.05';
 
-# The list of fields to be generated
 has fields => ( is => 'rw', isa => 'ArrayRef', auto_deref => 1 );
-
-# how many records?
 has record_count => ( is => 'rw', isa => 'Num' );
-
-# Ensure reuse of the field objects for each row.  This is important because
-# certain objects have large data sets inside them
 has object_cache => ( is => 'rw', isa => 'HashRef', default => sub { {} } );
-
-# This is a hashref to store open file handles
 has data_sources => ( is => 'rw', isa => 'HashRef', default => sub { {} } );
-
-# A hashref of record counts.  Not sure why this was used.  It's mentioned in
-# Data::Maker::Field::File 
 has record_counts => ( is => 'rw', isa => 'HashRef', default => sub { {} } );
-
-# The optional delimiter... could be anything.  Usually a comma, tab, pipe, etc
 has delimiter => ( is => 'rw' );
-
-# Here I deleted the "records" arrayref.   There is no additional need for it. 
-
-# This is for maintaining a count of the number of records that have been generated.
 has generated => ( is => 'rw', isa => 'Num', default => 0);
-
-# The optional random seed
 has seed => ( is => 'rw', isa => 'Num');
 
-# The BUILD method is a Moose thing.  It is run immediately after the object is created.
-# We seed the randomness of a seed was provided.
 sub BUILD {
   my $this = shift;
   if ($this->seed) {
@@ -43,7 +22,6 @@ sub BUILD {
   }
 }
 
-# Given the name of a field, this method returns the Field object
 sub field_by_name {
   my ($this, $name) = @_;
   for my $field($this->fields) {
@@ -118,10 +96,10 @@ Data::Maker - Simple, flexibile and extensible generation of realistic data
 
 =head1 DESCRIPTION
 
-L<Data::Maker> does not know why kind of data you need, but it will help you make lots of it.
+Whatever kind of test or demonstration data you need, L<Data::Maker> will help you make lots of it.
 
 And if you happen to need one of the various types of data that is available as predefined field types,
-it can be made even easier.
+it will be even easier.
 
 =head1 CONSTRUCTOR
 
@@ -175,9 +153,41 @@ provided to the L<Data::Maker> object
 
 =over 4
 
-=item B<fields> (I<ArrayRef>)
+=item B<fields> (I<ArrayRef[HashRef]>)
 
-The list of fields to be generated
+A list of hashrefs, each of which describes one field to be generated.   Each field needs to define the subclass of L<Data::Maker::Field> that is used to generate that field.  The order of the fields has I<some> relevance, particularly in the context of L<Data::Maker::Record>.  For example, the L<delimited|Data::Maker::Record/delimited> method returns the fields in the order in which they are listed here. 
+
+B<Note:> It may make more sense in the future for each field to have a "sequence" attribute, so methods such as L<delimited|Data::Maker::Record/delimited> would return then in a different order than that in which they are generated.  The order in which fields are generated matters in the event that one field relies on data from another (for example, the L<Data::Maker::Field::Person::Gender> field class relies on a first name that must have already been generated).
+
+=over 8 
+
+=item * L<Data::Maker::Field::Code> - Use a code reference to generate the data.  This is useful for generating a value for a field that is based on the value of another field.
+
+=item * L<Data::Maker::Field::DateTime> - Generates a random DateTime, using L<DateTime::Event::Random>.
+
+=item * L<Data::Maker::Field::File> - Provide your own file of seed data.
+
+=item * L<Data::Maker::Field::Format> - Specify a format for the data to follow.  The follow regexp-inspired atoms are supported:
+
+  \d: Digit
+  \w: Word character
+  \W: Word character, with all letters uppercase
+  \l: Letter
+  \L: Uppercase letter
+  \x: hex character (00, f2, 97, b4, etc)
+  \X: Uppercase hex character (00, F2, 97, B4, etc)
+
+=item * L<Data::Maker::Field::Person::FirstName> - A built-in field class for generating (mostly Anglo) first (given) names.
+
+=item * L<Data::Maker::Field::Person::MiddleName> - A built-in field class for generating middle I<initials> (I realize it's called MiddleName).  It should eventually be able to generate middle I<names> or I<initials>.
+
+=item * L<Data::Maker::Field::Person::LastName> - A built-in field class for generating (mostly Anglo) surnames.
+
+=item * L<Data::Maker::Field::Person::Gender> - Given a field that represents a given name, this class uses L<Text::GenderFromName> to guess the gender (currently returning only "M" or "F").  If it is not able to guess the gender, it returns "U" (unknown). 
+
+=item * L<Data::Maker::Field::Person::SSN> - A simple example of class that can be added to meet your own needs.  This class uses L<Data::Maker::Field::Format> to create a formatted string of random digits.
+
+=back 
 
 =item B<record_count> (I<Num>)
 
@@ -212,3 +222,17 @@ data comes out the same each time you run it.
 
 =back
 
+=head1 CONTRIBUTORS
+
+Thanks to my employer, Informatics Corporation of America, for its commitment to Perl and to giving back to the Perl community.
+Thanks to Mark Frost for the idea about optionally seeding the randomness to ensure the same output each time a program is run, if that's what you want to do.
+
+=head1 AUTHOR
+
+John Ingram (john@funnycow.com)
+
+=head1 LICENSE
+
+Copyright 2010 by John Ingram. All rights reserved.  This program is
+free software; you can redistribute it and/or modify it under the same terms
+as Perl itself.

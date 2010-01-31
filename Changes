@@ -1,3 +1,16 @@
+
+0.05 (01.31.2010) - John Ingram <john@funnycow.com>
+
+  * Changed $VERSION in the code to match the actual version (forgot to do that in 0.04)
+  * Modified the description in the POD
+  * Documented the individual Data::Maker::Field subclasses a little in the main Data::Maker page
+  * Removed some Data::Maker::Field subclasses that should never have been in the distribution
+  * Attributed my employer, ICA, for its support of the Perl community
+
+0.04 (01.31.2010) - John Ingram <john@funnycow.com>
+
+  * Cleaned up some documentation
+
 0.03 (01.31.2010) - John Ingram <john@funnycow.com>
 
   * Added the "Changes" file (this file)
