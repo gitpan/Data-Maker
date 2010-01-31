@@ -1,4 +1,14 @@
 
+Data::Maker - Simple, flexibile and extensible generation of realistic data
+
+Data::Maker does not know why kind of data you need, but it will help you make lots of it.
+
+And if you happen to need one of the various types of data that is available as predefined field types,
+it can be made even easier.
+
+The big difference between Data::Maker and modules you may have seen before is that Data::Maker 
+is specifically designed to make it easy for you to generate realistic random data.
+
 ROADMAP
 
 * Ipsum Lorem class to generate larger amounts of text
@@ -12,4 +22,3 @@ ROADMAP
 * Data::Maker::Field::PhoneNumber: to generate realistic phone numbers, preferably for multiple locales 
 * Making it possible to override the rand() call used throughout Data::Maker with some other
   randomization routine.
-* Using seeding to ensure that the same data can be generated again and again
