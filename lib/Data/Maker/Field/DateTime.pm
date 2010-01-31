@@ -3,7 +3,7 @@ use Moose;
 use DateTime::Event::Random;
 with 'Data::Maker::Field';
 
-our $VERSION = '0.05';
+our $VERSION = '0.08';
 
 has start => ( is => 'rw');
 has end => ( is => 'rw');

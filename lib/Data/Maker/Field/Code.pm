@@ -2,7 +2,7 @@ package Data::Maker::Field::Code;
 use Moose;
 with 'Data::Maker::Field';
 
-our $VERSION = '0.05';
+our $VERSION = '0.08';
 
 has code => ( is => 'rw', isa => 'CodeRef');
 

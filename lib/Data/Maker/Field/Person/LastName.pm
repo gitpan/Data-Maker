@@ -2,7 +2,7 @@ package Data::Maker::Field::Person::LastName;
 use Moose;
 with 'Data::Maker::Field';
 
-our $VERSION = '0.05';
+our $VERSION = '0.08';
 
 sub generate_value {
   my $this = shift;

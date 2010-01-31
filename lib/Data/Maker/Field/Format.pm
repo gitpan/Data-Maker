@@ -2,7 +2,7 @@ package Data::Maker::Field::Format;
 use Moose;
 with 'Data::Maker::Field';
 
-our $VERSION = '0.05';
+our $VERSION = '0.08';
 
 has formatter => ( is => 'rw', builder => 'format' );
 has format => ( is => 'rw');

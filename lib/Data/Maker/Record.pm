@@ -1,7 +1,7 @@
 package Data::Maker::Record;
 use Moose;
 
-our $VERSION = '0.05';
+our $VERSION = '0.08';
 
 has delimiter => ( is => 'rw' );
 has fields => ( is => 'rw', isa => 'ArrayRef', auto_deref => 1 );

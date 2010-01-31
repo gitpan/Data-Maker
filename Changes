@@ -1,3 +1,7 @@
+0.08 (01.31.2010) - John Ingram <john@funnycow.com>
+
+  * I keep forgetting to update $VERSION in the files when the version changes.  Just updated them
+
 0.07 (01.31.2010) - John Ingram <john@funnycow.com>
   * Added $VERSION to all *.pm files
   * Changed PROPERTIES to ATTRIBUTES in the POD for Data::Maker
