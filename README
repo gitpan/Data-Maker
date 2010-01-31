@@ -1,0 +1,15 @@
+
+ROADMAP
+
+* Ipsum Lorem class to generate larger amounts of text
+* Some type of "Person" class that would automatically `use` all of the 
+  Person subclasses and generate all fields related to one Person while taking into account
+  other fields of the same person (if that makes sense)
+* Data::Maker::Field::Company: to generate realistic, but not necessarily real, company
+  names, based on multiple word lists
+* Data::Maker::Field::Address::Street:  to generate realistic street names, based on multiple
+  word lists
+* Data::Maker::Field::PhoneNumber: to generate realistic phone numbers, preferably for multiple locales 
+* Making it possible to override the rand() call used throughout Data::Maker with some other
+  randomization routine.
+* Using seeding to ensure that the same data can be generated again and again
