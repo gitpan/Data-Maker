@@ -1,3 +1,12 @@
+0.07 (01.31.2010) - John Ingram <john@funnycow.com>
+  * Added $VERSION to all *.pm files
+  * Changed PROPERTIES to ATTRIBUTES in the POD for Data::Maker
+  * Fixed the code in the SYNOPSIS to make more sense (and added another example)
+  * Documented Data::Maker::Field::Code
+  * Documented Data::Maker::Field
+
+0.06 (01.31.2010) - John Ingram <john@funnycow.com>
+  * Accidentally released a version with no net changes... oops
 
 0.05 (01.31.2010) - John Ingram <john@funnycow.com>
 

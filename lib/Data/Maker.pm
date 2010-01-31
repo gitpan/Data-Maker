@@ -83,6 +83,10 @@ Data::Maker - Simple, flexibile and extensible generation of realistic data
 
 =head1 SYNOPSIS
 
+An extremely basic example:
+
+  use Data::Maker;
+
   my $maker = Data::Maker->new(
     record_count => 10_000,
     fields => [
@@ -91,8 +95,41 @@ Data::Maker - Simple, flexibile and extensible generation of realistic data
   );
 
   while (my $record = $maker->next_record) {
+    print $record->phone . "\n";
+  }
+
+A more complete example:
+
+  use Data::Maker;
+  use Data::Maker::Field::Person::LastName;
+  use Data::Maker::Field::Person::FirstName;
+
+  my $maker = Data::Maker->new(
+    record_count => 10_000,
+    delimiter => "\t",
+    fields => [
+      { 
+        name => 'lastname', 
+        class => 'Data::Maker::Field::Person::LastName'
+      },
+      { 
+        name => 'firstname', 
+        class => 'Data::Maker::Field::Person::FirstName'
+      },
+      { 
+        name => 'phone', 
+        class => 'Data::Maker::Field::Format',
+        args => {
+          format => '(\d\d\d)\d\d\d-\d\d\d\d',
+        }
+      },
+    ]
+  );
+
+  while (my $record = $maker->next_record) {
     print $record->delimited . "\n";
   }
+
 
 =head1 DESCRIPTION
 
@@ -149,7 +186,9 @@ provided to the L<Data::Maker> object
 
 =back
 
-=head1 PROPERTIES
+=head1 ATTRIBUTES
+
+The following L<Moose> attributes are used (the data type of each attribute is also listed):
 
 =over 4
 
@@ -195,12 +234,12 @@ The number of records desired
 
 =item B<object_cache> (I<HashRef>)
 
-Ensure reuse of the field objects for each row.  This is important 
+Used internally by Data::Maker to ensure reuse of the field objects for each row.  This is important 
 because certain objects have large data sets inside them.
 
 =item B<data_sources> (I<HashRef>)
 
-This is a hashref to store open file handles
+Used internally by Data::Maker.  It's a hashref to store open file handles.
 
 =item B<record_counts> (I<HashRef>)
 
@@ -213,7 +252,7 @@ The optional delimiter... could be anything.  Usually a comma, tab, pipe, etc
 
 =item B<generated> (I<Num>)
 
-This is for maintaining a count of the number of records that have been generated.
+Returns the number of records that have been generated so far.
 
 =item B<seed> (I<Num>)
 

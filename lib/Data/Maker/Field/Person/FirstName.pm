@@ -2,6 +2,8 @@ package Data::Maker::Field::Person::FirstName;
 use Moose;
 with 'Data::Maker::Field';
 
+our $VERSION = '0.05';
+
 sub generate_value {
   my $this = shift;
   my $key = '_name_count';

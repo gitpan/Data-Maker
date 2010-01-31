@@ -3,6 +3,8 @@ use Data::Maker::Record;
 use Moose;
 use MooseX::AttributeHelpers;
 
+our $VERSION = '0.05';
+
 has fields => ( is => 'rw', isa => 'ArrayRef', auto_deref => 1 );
 has record_count => ( is => 'rw' );
 has object_cache => ( is => 'rw', isa => 'HashRef', default => sub { {} } );
