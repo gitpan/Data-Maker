@@ -2,13 +2,17 @@ package Data::Maker::Field::Code;
 use Moose;
 with 'Data::Maker::Field';
 
-our $VERSION = '0.08';
+our $VERSION = '0.09';
 
 has code => ( is => 'rw', isa => 'CodeRef');
 
 sub generate_value {
   my ($this, $maker) = @_;
-  &{$this->code}($this, $maker);
+  if ($this->code && (ref($this->code) eq 'CODE') ) {
+    &{$this->code}($this, $maker);
+  } else {
+    die "A field of class Data::Maker::Field::Code must have a \"code\" attribute passed, which must be a code reference";
+  }
 }
 
 1;

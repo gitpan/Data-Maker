@@ -1,10 +1,9 @@
 package Data::Maker;
 use Data::Maker::Record;
 use Moose;
-use MooseX::AttributeHelpers;
 use Data::Maker::Field::Format;
 
-our $VERSION = '0.08';
+our $VERSION = '0.09';
 
 has fields => ( is => 'rw', isa => 'ArrayRef', auto_deref => 1 );
 has record_count => ( is => 'rw', isa => 'Num' );
