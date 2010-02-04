@@ -1,3 +1,6 @@
+0.10 (02.04.2010) - John Ingram <john@funnycow.com>
+  * Added Data::Maker::Field::Set
+
 0.09 (02.03.2010) - John Ingram <john@funnycow.com>
   * Now requiring that a "code" attribute be sent to Data::Maker::Field::Code 
   * Removed erroneous import of MooseX::AttributeHelpers -- thanks to Andreas Koenig (RT #54237)

@@ -11,7 +11,6 @@ is specifically designed to make it easy for you to generate realistic random da
 
 ROADMAP
 
-* Ipsum Lorem class to generate larger amounts of text
 * Some type of "Person" class that would automatically `use` all of the 
   Person subclasses and generate all fields related to one Person while taking into account
   other fields of the same person (if that makes sense)
