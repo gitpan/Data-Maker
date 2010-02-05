@@ -4,11 +4,11 @@ lib/Data/Maker/Field/File.pm
 lib/Data/Maker/Field/Format.pm
 lib/Data/Maker/Field/Lorem.pm
 lib/Data/Maker/Field/Set.pm
+lib/Data/Maker/Field/Person.pm
 lib/Data/Maker/Field/Person/FirstName.pm
 lib/Data/Maker/Field/Person/Gender.pm
 lib/Data/Maker/Field/Person/LastName.pm
 lib/Data/Maker/Field/Person/MiddleName.pm
-lib/Data/Maker/Field/Person/SSN.pm
 lib/Data/Maker/Field.pm
 lib/Data/Maker/Record.pm
 lib/Data/Maker/Tutorial.pod

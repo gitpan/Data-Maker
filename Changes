@@ -1,3 +1,23 @@
+0.11 (02.05.2010) - John Ingram <john@funnycow.com>
+  * Two modules required by only one Field class each were not declared in Makefile.PL.  
+    I added them, though I need to consider making each Data::Maker::Field subclass
+    that requires other CPAN modules having its own distribution and not being required for
+    Data::Maker itself.
+  * Added the Set and Lorem classes to the Data::Maker man page, because all classes are 
+    listed there -- which I forgot.  I need a checklist! :)
+  * Got rid of all signs of Data::Maker::Field::Person::SSN.  I still want to have it 
+    as an example of how you can easily add your own Format subclass, but I obviously 
+    something since that original idea and I have to give it fresh thought.
+  * Added Data::Maker::Field::Person, which right now is nothing more than a way to 
+    import all of the Person classes.
+  * Added a `before` trigger to record_count to reset the `generated` to zero whenever
+    `record_count` is changed.  This might come back to bite me, but the only time it really
+    makes sense to change the `record_count` is when you want to start over.
+  * Added the Data::Maker->random class method for when you just need a really simple random 
+    pick.  I added this specifically for hierarchical data, so you can have a maker object called
+    in between `next_record` calls of another maker object that creates a random number of child
+    objects.  It made sense to use $maker2->record_count( Data::Maker->random ).
+
 0.10 (02.04.2010) - John Ingram <john@funnycow.com>
   * Added Data::Maker::Field::Set
 

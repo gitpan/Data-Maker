@@ -3,10 +3,11 @@ use Data::Maker::Record;
 use Moose;
 use Data::Maker::Field::Format;
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 has fields => ( is => 'rw', isa => 'ArrayRef', auto_deref => 1 );
 has record_count => ( is => 'rw', isa => 'Num' );
+before record_count => sub { my $self = shift;  if (@_) { $self->generated(0) } };
 has object_cache => ( is => 'rw', isa => 'HashRef', default => sub { {} } );
 has data_sources => ( is => 'rw', isa => 'HashRef', default => sub { {} } );
 has record_counts => ( is => 'rw', isa => 'HashRef', default => sub { {} } );
@@ -71,6 +72,18 @@ sub in_progress {
 sub header {
   my $this = shift;
   return join($this->delimiter, map { $_->{label} } $this->fields); 
+}
+
+sub random {
+  my $class = shift;
+  my @choices;
+  if (ref($_[0]) eq 'ARRAY') {
+    my $choices = shift;
+    @choices = @{$choices}; 
+  } else {
+    @choices = @_;
+  }
+  return $choices[ rand @choices];
 }
 
 1;
@@ -147,6 +160,18 @@ Returns a new L<Data::Maker> object.  Any PARAMS passed to the constructor will 
 
 =back
 
+=head1 CLASS METHODS
+
+=over 4
+
+=item B<random> LIST
+
+Just makes a quick random selection from a list of choices.   It's just like calling Perl's `rand()` without having to mention the list more than once, and just like using L<Data::Maker::Field::Set> with less syntax (and it works where using a Field subclass would not be appropriate).   A good use of this (and the reason it was written) is when you want a random number of records created.  You can set L<record_count|Data::Maker/record_count> to generate a random number of records between 3 and 19 with this code:
+
+  $maker->record_count( Data::Maker->random(3..19) );
+
+=back
+
 =head1 OBJECT METHODS
 
 =over 4
@@ -156,7 +181,7 @@ Returns a new L<Data::Maker> object.  Any PARAMS passed to the constructor will 
 The BUILD method is a L<Moose> thing.  It is run immediately after the object is created.
 Currently used in Data::Maker only to seed the randomness, if a seed was provided.
 
-=item B<field_by_name>
+=item B<field_by_name> NAME
 
 Given the name of a field, this method returns the Field object
 
@@ -164,7 +189,7 @@ Given the name of a field, this method returns the Field object
 
 This method not only gets the next record, but it also triggers the generation of the data itself.
 
-=item B<new_or_cached>
+=item B<new_or_cached> CLASS, FIELD
 
 This method is not used yet, though I keep hoping the object_cache() code above (in next_record ) 
 will call this method instead of having the code there.  But it is really only used once
@@ -223,7 +248,9 @@ B<Note:> It may make more sense in the future for each field to have a "sequence
 
 =item * L<Data::Maker::Field::Person::Gender> - Given a field that represents a given name, this class uses L<Text::GenderFromName> to guess the gender (currently returning only "M" or "F").  If it is not able to guess the gender, it returns "U" (unknown). 
 
-=item * L<Data::Maker::Field::Person::SSN> - A simple example of class that can be added to meet your own needs.  This class uses L<Data::Maker::Field::Format> to create a formatted string of random digits.
+=item * L<Data::Maker::Field::Set> - A build-in field class for selecting a random member of a given set.
+
+=item * L<Data::Maker::Field::Lorem> - A build-in field class for generating random Latin-looking text, using L<Text::Lorem>.
 
 =back 
 
@@ -256,14 +283,15 @@ Returns the number of records that have been generated so far.
 =item B<seed> (I<Num>)
 
 The optional random seed.  Provide a seed to ensure that the randomly-generated 
-data comes out the same each time you run it.
+data comes out the same each time you run it.  This is actually super-cool 
+when you need this kind of thing.
 
 =back
 
 =head1 CONTRIBUTORS
 
 Thanks to my employer, Informatics Corporation of America, for its commitment to Perl and to giving back to the Perl community.
-Thanks to Mark Frost for the idea about optionally seeding the randomness to ensure the same output each time a program is run, if that's what you want to do.
+Thanks to Mark Frost for the idea about optionally seeding the randomness to ensure the same output each time a program is run, if that's what you want to do (turns out this is very useful).
 
 =head1 AUTHOR
 

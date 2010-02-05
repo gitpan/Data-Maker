@@ -21,3 +21,11 @@ ROADMAP
 * Data::Maker::Field::PhoneNumber: to generate realistic phone numbers, preferably for multiple locales 
 * Making it possible to override the rand() call used throughout Data::Maker with some other
   randomization routine.
+* I wonder why most of the code needed by the Format class is in Data::Maker::Field?  I need to answer
+  that question of fix the problem.
+* I also wonder why I made the decision to make fields() take a list of hashrefs instead of list
+  of blessed Field objects.   I'm pretty sure my first stab at this took blessed objects and there
+  was some reason that I went to this.  But I'm sure somebody will eventually ask the question, so I would
+  like to know the answer.  This is something I should maybe get to the bottom of.
+
+
