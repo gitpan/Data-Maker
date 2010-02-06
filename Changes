@@ -1,3 +1,12 @@
+0.12 (02.05.2010) - John Ingram <john@funnycow.com>
+  * Added some notes to the POD; one about performance and one acknowledging the 
+    existence of another module called Data::Faker
+  * Added reset() method to Data::Maker, which sets generated() to 0
+  * Added `from_name` attribute to Data::Maker::Field::Person::Gender, mainly for benchmarking
+    purposes so I could benchmark the Gender field by itself.  If provided, it will use that name
+    instead of getting the name from the field referenced by `from_field`.
+  * Tweaked the Maker.pm POD a little, adding a section on performance, including benchmark results.
+
 0.11 (02.05.2010) - John Ingram <john@funnycow.com>
   * Two modules required by only one Field class each were not declared in Makefile.PL.  
     I added them, though I need to consider making each Data::Maker::Field subclass

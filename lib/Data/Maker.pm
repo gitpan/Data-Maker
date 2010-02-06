@@ -7,7 +7,7 @@ our $VERSION = '0.11';
 
 has fields => ( is => 'rw', isa => 'ArrayRef', auto_deref => 1 );
 has record_count => ( is => 'rw', isa => 'Num' );
-before record_count => sub { my $self = shift;  if (@_) { $self->generated(0) } };
+before record_count => sub { my $self = shift;  if (@_) { $self->reset } };
 has object_cache => ( is => 'rw', isa => 'HashRef', default => sub { {} } );
 has data_sources => ( is => 'rw', isa => 'HashRef', default => sub { {} } );
 has record_counts => ( is => 'rw', isa => 'HashRef', default => sub { {} } );
@@ -21,6 +21,8 @@ sub BUILD {
     srand($this->seed);
   }
 }
+
+sub reset { shift->generated(0) }
 
 sub field_by_name {
   my ($this, $name) = @_;
@@ -145,10 +147,37 @@ A more complete example:
 
 =head1 DESCRIPTION
 
+=head2 Overview
+
 Whatever kind of test or demonstration data you need, L<Data::Maker> will help you make lots of it.
 
 And if you happen to need one of the various types of data that is available as predefined field types,
 it will be even easier.
+
+=head2 Performance
+
+Data::Maker was not specifically designed for performance, though obviously performance is a consideration.
+
+My latest benchmarking has generally been around 100 records per second, but obviously this varies with different types of fields and certainly with different quantities of fields.
+
+I think it's a good idea to benchmark each field type.  I added most of them to a benchmarking script that creates a certain number of records (in this case 250) with one field at a time, and then that same number of records with all of the fields in it.   Obviously the time required to generate an entire record increases with each field that is added.
+
+Here are those results:
+
+  Data::Maker::Field::Format                           674.10 records/s
+  Data::Maker::Field::Person::FirstName                611.65 records/s
+  Data::Maker::Field::Person::LastName                 610.76 records/s
+  Data::Maker::Field::Code                             744.65 records/s
+  Data::Maker::Field::Person::Gender                   709.56 records/s
+  Data::Maker::Field::DateTime                         268.48 records/s
+  Data::Maker::Field::Lorem                            704.18 records/s
+  Data::Maker::Record (with all of the above fields)    94.17 records/s
+
+These benchmarks were run on a 2.66 GHz Intel Core 2 Duo MacBook Pro with 4 GB of memory.  In the future I will benchmark additional hardware and put that information in another document.
+
+=head2 Related Modules
+
+I recently heard about L<Data::Faker>, which seems to have had similar goals.  I had not heard of Data::Faker when I first published Data::Maker and, at the time of this writing, Data::Faker has not been updated in four and a half years.
 
 =head1 CONSTRUCTOR
 
@@ -165,7 +194,7 @@ Returns a new L<Data::Maker> object.  Any PARAMS passed to the constructor will 
 =over 4
 
 =item B<random> LIST
-
+ 
 Just makes a quick random selection from a list of choices.   It's just like calling Perl's `rand()` without having to mention the list more than once, and just like using L<Data::Maker::Field::Set> with less syntax (and it works where using a Field subclass would not be appropriate).   A good use of this (and the reason it was written) is when you want a random number of records created.  You can set L<record_count|Data::Maker/record_count> to generate a random number of records between 3 and 19 with this code:
 
   $maker->record_count( Data::Maker->random(3..19) );
