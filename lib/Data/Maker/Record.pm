@@ -1,5 +1,6 @@
 package Data::Maker::Record;
 use Moose;
+use vars qw( $AUTOLOAD );
 
 our $VERSION = '0.08';
 
@@ -13,10 +14,15 @@ sub BUILD {
     if (my $data = $args->{data}) {
       for my $key(keys(%{$data})) {
         $this->{$key} = $data->{$key}; 
-        has $key => ( is => 'rw' );
       }
     }
   }
+}
+
+sub AUTOLOAD {
+  my $this = shift;
+  my $key = $1 if $AUTOLOAD =~ /(\w+)$/;;
+  return $this->{$key};
 }
 
 sub delimited {

@@ -1,3 +1,8 @@
+0.13 (02.06.2010) - John Ingram <john@funnycow.com>
+  * Improved performance by more than 100% by changing the dynamic field methods to use
+    AUTOLOAD instead of using dynamic Moose attributes.  We'll see if there's a downside
+    to this.  
+
 0.12 (02.05.2010) - John Ingram <john@funnycow.com>
   * Added some notes to the POD; one about performance and one acknowledging the 
     existence of another module called Data::Faker

@@ -164,14 +164,14 @@ I think it's a good idea to benchmark each field type.  I added most of them to 
 
 Here are those results:
 
-  Data::Maker::Field::Format                           674.10 records/s
-  Data::Maker::Field::Person::FirstName                611.65 records/s
-  Data::Maker::Field::Person::LastName                 610.76 records/s
-  Data::Maker::Field::Code                             744.65 records/s
-  Data::Maker::Field::Person::Gender                   709.56 records/s
-  Data::Maker::Field::DateTime                         268.48 records/s
-  Data::Maker::Field::Lorem                            704.18 records/s
-  Data::Maker::Record (with all of the above fields)    94.17 records/s
+  Data::Maker::Field::Format                          1851.74 records/s
+  Data::Maker::Field::Person::FirstName               1522.83 records/s
+  Data::Maker::Field::Person::LastName                1520.74 records/s
+  Data::Maker::Field::Code                            2232.42 records/s
+  Data::Maker::Field::Person::Gender                  2045.09 records/s
+  Data::Maker::Field::DateTime                         389.43 records/s
+  Data::Maker::Field::Lorem                           2054.06 records/s
+  Data::Maker::Record (with all of the above fields)   203.73 records/s
 
 These benchmarks were run on a 2.66 GHz Intel Core 2 Duo MacBook Pro with 4 GB of memory.  In the future I will benchmark additional hardware and put that information in another document.
 
