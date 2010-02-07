@@ -1,3 +1,7 @@
+0.14 (02.06.2010) - John Ingram <john@funnycow.com>
+  * Brought back SSN field, which is a good demonstration of creating a Format subclass
+  * Fixed some version numbers because I have not been paying enough attention to them lately
+
 0.13 (02.06.2010) - John Ingram <john@funnycow.com>
   * Improved performance by more than 100% by changing the dynamic field methods to use
     AUTOLOAD instead of using dynamic Moose attributes.  We'll see if there's a downside
