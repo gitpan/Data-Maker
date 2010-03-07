@@ -16,7 +16,7 @@ Let's say you need 10,000 US phone numbers, all formatted the same way:
 
     # Instantiate the object, telling Data::Maker how many 
     # records you want and defining a simple "format" field 
-    # (which will use the L<Data::Maker::Field::Format> class.
+    # (which will use the Data::Maker::Field::Format class)
     
     my $maker = Data::Maker->new(
       record_count => 10_000,

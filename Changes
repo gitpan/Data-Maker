@@ -1,3 +1,6 @@
+0.15 (02.07.2010) - John Ingram <john@funnycow.com>
+  * Fixed an oversight in the benchmarking documentation (forgot to change the 100 to 200)
+
 0.14 (02.06.2010) - John Ingram <john@funnycow.com>
   * Brought back SSN field, which is a good demonstration of creating a Format subclass
   * Fixed some version numbers because I have not been paying enough attention to them lately

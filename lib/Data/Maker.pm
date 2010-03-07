@@ -158,7 +158,7 @@ it will be even easier.
 
 Data::Maker was not specifically designed for performance, though obviously performance is a consideration.
 
-My latest benchmarking has generally been around 100 records per second, but obviously this varies with different types of fields and certainly with different quantities of fields.
+My latest benchmarking has generally been around 200 records per second, for a fairly typical assortment of fields, but obviously this varies with different types of fields and certainly with different quantities of fields.
 
 I think it's a good idea to benchmark each field type.  I added most of them to a benchmarking script that creates a certain number of records (in this case 250) with one field at a time, and then that same number of records with all of the fields in it.   Obviously the time required to generate an entire record increases with each field that is added.
 
