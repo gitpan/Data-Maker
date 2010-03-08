@@ -3,7 +3,7 @@ use Data::Maker::Record;
 use Moose;
 use Data::Maker::Field::Format;
 
-our $VERSION = '0.14';
+our $VERSION = '0.16';
 
 has fields => ( is => 'rw', isa => 'ArrayRef', auto_deref => 1 );
 has record_count => ( is => 'rw', isa => 'Num' );
@@ -18,7 +18,10 @@ has seed => ( is => 'rw', isa => 'Num');
 sub BUILD {
   my $this = shift;
   if ($this->seed) {
-    srand($this->seed);
+    unless($Data::Maker::Seeded) {
+      srand($this->seed);
+      $Data::Maker::Seeded = 1;
+    }
   }
 }
 
@@ -86,6 +89,11 @@ sub random {
     @choices = @_;
   }
   return $choices[ rand @choices];
+}
+
+sub add_field {
+  my ($this, $field) = @_;
+  push(@{$this->{fields}}, $field);
 }
 
 1;
@@ -236,6 +244,10 @@ so that the gender of the person will match the first name of the person.
 
 Prints out a delimited list of all of the labels, only if a delimiter was 
 provided to the L<Data::Maker> object
+
+=item B<add_field> HASHREF
+
+Takes a hashref that describes a field attribute and adds it to the field list
 
 =back
 

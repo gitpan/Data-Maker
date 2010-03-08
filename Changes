@@ -1,5 +1,11 @@
-0.15 (02.07.2010) - John Ingram <john@funnycow.com>
+0.16 (03.07.2010) - John Ingram <john@funnycow.com>
   * Fixed an oversight in the benchmarking documentation (forgot to change the 100 to 200)
+  * Modified the seeding code to make sure seeding never happens more than once
+  * Added Data::Maker::Field::MultiSet
+  * Added Data::Maker::Field::Initials
+
+0.15 (03.07.2010) - John Ingram <john@funnycow.com>
+  * This was a botched release.  I accidentally released a copy of trunk when my changes had been made to a feature branch
 
 0.14 (02.06.2010) - John Ingram <john@funnycow.com>
   * Brought back SSN field, which is a good demonstration of creating a Format subclass
