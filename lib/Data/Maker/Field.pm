@@ -1,7 +1,7 @@
 package Data::Maker::Field;
 use Moose::Role;
 
-our $VERSION = '0.08';
+our $VERSION = '0.17';
 
 has name      => ( is => 'rw' );
 has class     => ( is => 'rw' );
@@ -19,7 +19,11 @@ requires 'generate_value';
 sub generate {
   my $this = shift;
   my $maker = shift;
-  $this->value( $this->generate_value($maker) );
+  my $value = $this->generate_value($maker);
+  if (my $code = $this->formatted) {
+    $value = &{$code}($value);
+  }
+  $this->value( $value );
   return $this;
 }
 
@@ -160,7 +164,7 @@ Any Moose attribute that you define (C<some_flag> in the above example) can then
     ]
   );
 
-  # And then later, in C<generate_value>...
+  # And then later, in generate_value()...
 
   sub generate_value {
     my ($this, $maker) = @_;
@@ -168,4 +172,42 @@ Any Moose attribute that you define (C<some_flag> in the above example) can then
     # amazing code here...
     return $amazing_value;
   }
+
+=head1 ATTRIBUTES
+
+The following public L<Moose> attributes are supported (the data type of each attribute is also listed)
+
+=over 4
+
+=item B<name>
+
+The name of the field.  This is used to refer to this field from other fields, and can also be used as a method
+to the Data::Maker::Record object to retrieve the value for this field.
+
+=back
+
+=over 4
+
+=item B<class>
+
+The name of the class to be used for this field
+
+=back
+
+=over 4
+
+=item B<args> (I<HashRef>)
+
+The hash reference of arguments to be passed to this field
+
+=back
+
+=over 4
+
+=item B<formatted> (I<CodeRef>)
+
+A code reference that will be executed on the value after it is generated, but before it is returned
+
+=back
+
 

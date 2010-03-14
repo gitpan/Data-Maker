@@ -1,3 +1,10 @@
+0.17 (03.14.2010) - John Ingram <john@funnycow.com>
+  * Added default delimiter of "\t", so that the delimited() method will return a tab-delimited record by default
+  * Added more detailed documentation to Data::Maker::Field::Initials, to point out the two different 
+    ways to use that class.
+  * There was already a "formatted" attribute defined for any field, which is a code reference that is to be applied to the 
+    value after it is generated but before it is returned.  But it was not being used in the code, so I fixed that.
+
 0.16 (03.07.2010) - John Ingram <john@funnycow.com>
   * Fixed an oversight in the benchmarking documentation (forgot to change the 100 to 200)
   * Modified the seeding code to make sure seeding never happens more than once

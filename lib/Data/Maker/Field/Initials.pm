@@ -2,7 +2,7 @@ package Data::Maker::Field::Initials;
 use Moose;
 extends 'Data::Maker::Field::Code';
 
-our $VERSION = '0.16';
+our $VERSION = '0.17';
 
 has from_field => ( is => 'rw', isa => 'Str' );
 has from_field_set => ( is => 'rw', isa => 'ArrayRef' );
@@ -33,9 +33,43 @@ Data::Maker::Field::Initials - A L<Data::Maker> field class that generates its d
 
 =head1 SYNOPSIS
 
+There are two ways to use the Initials class:
+
+=head2 Derive the initials from one field
+
+The initials will be derived from the first letter of each word in the last value generated for the given field.
+
   use Data::Maker;
-  use Data::Maker::Field::Person::FirstName;
-  use Data::Maker::Field::Person::LastName;
+  use Data::Maker::Field::Lorem;
+  use Data::Maker::Field::Initials;
+
+  my $maker = Data::Maker->new(
+    record_count => 10,
+    fields => [
+      {
+        name => 'foo',
+        class => 'Data::Maker::Field::Lorem',
+        args => {
+          words => 5
+        }
+      },
+      {
+        name => 'foo_initials',
+        class => 'Data::Maker::Field::Initials',
+        args => {
+          from_field => 'foo'
+        }
+      },
+    ]
+  );
+
+=head2 Derive the initials from multiple fields
+
+The initials will be derived from the first letter of the last value generated for the each field.
+
+  use Data::Maker;
+  use Data::Maker::Field::Person;
+  use Data::Maker::Field::Initials;
 
   my $maker = Data::Maker->new(
     record_count => 10,

@@ -3,7 +3,7 @@ use Data::Maker::Record;
 use Moose;
 use Data::Maker::Field::Format;
 
-our $VERSION = '0.16';
+our $VERSION = '0.17';
 
 has fields => ( is => 'rw', isa => 'ArrayRef', auto_deref => 1 );
 has record_count => ( is => 'rw', isa => 'Num' );
@@ -11,7 +11,7 @@ before record_count => sub { my $self = shift;  if (@_) { $self->reset } };
 has object_cache => ( is => 'rw', isa => 'HashRef', default => sub { {} } );
 has data_sources => ( is => 'rw', isa => 'HashRef', default => sub { {} } );
 has record_counts => ( is => 'rw', isa => 'HashRef', default => sub { {} } );
-has delimiter => ( is => 'rw' );
+has delimiter => ( is => 'rw', default => "\t" );
 has generated => ( is => 'rw', isa => 'Num', default => 0);
 has seed => ( is => 'rw', isa => 'Num');
 
