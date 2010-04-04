@@ -117,7 +117,7 @@ An extremely basic example:
   );
 
   while (my $record = $maker->next_record) {
-    print $record->phone . "\n";
+    print $record->phone->value . "\n";
   }
 
 A more complete example:

@@ -19,13 +19,13 @@ ROADMAP
 * Data::Maker::Field::Address::Street:  to generate realistic street names, based on multiple
   word lists
 * Data::Maker::Field::PhoneNumber: to generate realistic phone numbers, preferably for multiple locales 
-* Making it possible to override the rand() call used throughout Data::Maker with some other
-  randomization routine.
 * I wonder why most of the code needed by the Format class is in Data::Maker::Field?  I need to answer
   that question of fix the problem.
 * I also wonder why I made the decision to make fields() take a list of hashrefs instead of list
   of blessed Field objects.   I'm pretty sure my first stab at this took blessed objects and there
   was some reason that I went to this.  But I'm sure somebody will eventually ask the question, so I would
   like to know the answer.  This is something I should maybe get to the bottom of.
-
+* There is likely some usefulness in the ability to have Data::Maker generate something other than
+  perfectly-clean data.  A defined amount (or a random amount) of dirty or incomplete data is something
+  that might make some sense, for the purpose of testing scripts whose job is to identify bad data.
 

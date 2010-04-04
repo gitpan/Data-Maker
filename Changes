@@ -1,3 +1,6 @@
+0.18 (04.03.2010) - John Ingram <john@funnycow.com>
+  * Slightly-modified the first example in the Maker.pm POD, to match the same example in Tutorial.pod (thanks to David N. Blank-Edelman for pointing out the discrepancy)
+
 0.17 (03.14.2010) - John Ingram <john@funnycow.com>
   * Added default delimiter of "\t", so that the delimited() method will return a tab-delimited record by default
   * Added more detailed documentation to Data::Maker::Field::Initials, to point out the two different 
