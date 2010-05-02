@@ -3,10 +3,11 @@ use Moose;
 extends 'Data::Maker::Field::Code';
 use Text::GenderFromName;
 
-our $VERSION = '0.08';
+our $VERSION = '0.20';
 
 has from_field => ( is => 'rw', isa => 'Str');
 has from_name => ( is => 'rw', isa => 'Str');
+has allow_unknown => ( is => 'rw', isa => 'Bool', default => 1);
 
 has code => ( 
   is => 'rw', 
@@ -28,7 +29,11 @@ sub get_gender {
   } else {
     return 'F' if $name =~ /(a|ie)$/;
     return 'M' if $name =~ /o$/;
-    return 'U';
+    if ($this->allow_unknown) {
+      return 'U';
+    } else {
+      return Data::Maker->random('M','F');
+    }
   }
 }
 

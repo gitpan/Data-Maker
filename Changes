@@ -1,3 +1,19 @@
+0.20 (05.02.2010) - John Ingram <john@funnycow.com>
+  * Significant (and mostly-accidental) performance improvement with Field object caching
+  * Removed everything having to do with the "object_cache", due to the above performance
+    improvement.  Object caching is now done using the Moose method modifier "around".
+  * Finally noticed that I have not updated the version field in Makefile.PL since version 0.01,
+    so I updated that.
+  * The header() method assumed that there was a `label` attribute.  Now it uses `name` if 
+    there is no `label`
+  * Added boolean attribute `allow_unknown` to the Gender class.  If false, a random 
+    selection between M and F will be made instead of returning a gender of U
+  * Updated the benchmarks in Maker.pm, due to performance improvement mentioned above
+  * Added benchmarking script to the distribution (t/benchmark.pl)
+  * Added Data::Maker::Field::Number
+  * Added Data::Maker::Field::IP
+  * Added Data::Maker::Field::Password
+
 0.19 (04.04.2010) - John Ingram <john@funnycow.com>
   * Didn't change the version in the code AGAIN.  Didn't follow the checklist.  Duh.
 

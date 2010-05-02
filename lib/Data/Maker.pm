@@ -3,12 +3,11 @@ use Data::Maker::Record;
 use Moose;
 use Data::Maker::Field::Format;
 
-our $VERSION = '0.19';
+our $VERSION = '0.20';
 
 has fields => ( is => 'rw', isa => 'ArrayRef', auto_deref => 1 );
 has record_count => ( is => 'rw', isa => 'Num' );
 before record_count => sub { my $self = shift;  if (@_) { $self->reset } };
-has object_cache => ( is => 'rw', isa => 'HashRef', default => sub { {} } );
 has data_sources => ( is => 'rw', isa => 'HashRef', default => sub { {} } );
 has record_counts => ( is => 'rw', isa => 'HashRef', default => sub { {} } );
 has delimiter => ( is => 'rw', default => "\t" );
@@ -44,8 +43,7 @@ sub next_record {
   for my $field($this->fields) {
     if (my $class = $field->{class}) {
       $field->{args}->{name} = $field->{name};
-      #my $object = $this->new_or_cached($class, $field);
-      my $object = $this->object_cache->{$class} || $class->new( $field->{args} ? %{$field->{args}} : () );
+      my $object = $class->new( $field->{args} ? %{$field->{args}} : () );
       $record->{ $field->{name} } = $object->generate($this);
     } elsif ($field->{format}) {
       my $object = Data::Maker::Field::Format->new( format => $field->{format} );
@@ -60,11 +58,6 @@ sub next_record {
 # deleted previous_record() method.  It was only going to be useful if we were maintaining
 # a list of all records generated, and that's just not scalable and isn't needed.
 
-sub new_or_cached {
-  my ($this, $class, $field) = @_;
-  return $this->object_cache->{$class} || $class->new( $field->{args} ? %{$field->{args}} : () );
-}
-
 sub in_progress {
   my ($this, $name) = @_;
   if (my $prog = $this->{_in_progress}) {
@@ -76,7 +69,7 @@ sub in_progress {
 
 sub header {
   my $this = shift;
-  return join($this->delimiter, map { $_->{label} } $this->fields); 
+  return join($this->delimiter, map { $_->{label} || $_->{name} } $this->fields); 
 }
 
 sub random {
@@ -170,18 +163,21 @@ My latest benchmarking has generally been around 200 records per second, for a f
 
 I think it's a good idea to benchmark each field type.  I added most of them to a benchmarking script that creates a certain number of records (in this case 250) with one field at a time, and then that same number of records with all of the fields in it.   Obviously the time required to generate an entire record increases with each field that is added.
 
-Here are those results:
+Here are those results (new benchmarks based on version 0.20):
 
-  Data::Maker::Field::Format                          1851.74 records/s
-  Data::Maker::Field::Person::FirstName               1522.83 records/s
-  Data::Maker::Field::Person::LastName                1520.74 records/s
-  Data::Maker::Field::Code                            2232.42 records/s
-  Data::Maker::Field::Person::Gender                  2045.09 records/s
-  Data::Maker::Field::DateTime                         389.43 records/s
-  Data::Maker::Field::Lorem                           2054.06 records/s
-  Data::Maker::Record (with all of the above fields)   203.73 records/s
+  Data::Maker::Field::Format                          2891.54 records/s
+  Data::Maker::Field::Person::FirstName               3709.70 records/s
+  Data::Maker::Field::Person::LastName                3753.64 records/s
+  Data::Maker::Field::Code                            3706.50 records/s
+  Data::Maker::Field::Person::Gender                  3546.64 records/s
+  Data::Maker::Field::DateTime                         422.07 records/s
+  Data::Maker::Field::Lorem                           3474.74 records/s
+  Data::Maker::Field::Person::SSN                     2947.59 records/s
+  Data::Maker::Record (with all of the above fields)   375.29 records/s
 
-These benchmarks were run on a 2.66 GHz Intel Core 2 Duo MacBook Pro with 4 GB of memory.  In the future I will benchmark additional hardware and put that information in another document.
+These benchmarks were run on a 2.66 GHz Intel Core 2 Duo MacBook Pro with 4 GB of memory.  In the future I will benchmark additional hardware and put that information in another document.  
+
+To run the same benchmarks yourself, run the C<t/benchmark.pl> script.
 
 =head2 Related Modules
 
@@ -225,12 +221,6 @@ Given the name of a field, this method returns the Field object
 =item B<next_record>
 
 This method not only gets the next record, but it also triggers the generation of the data itself.
-
-=item B<new_or_cached> CLASS, FIELD
-
-This method is not used yet, though I keep hoping the object_cache() code above (in next_record ) 
-will call this method instead of having the code there.  But it is really only used once
-in this form, so I'm perhaps being too picky.
 
 =item B<in_progress> B<NAME>
 
@@ -298,11 +288,6 @@ B<Note:> It may make more sense in the future for each field to have a "sequence
 =item B<record_count> (I<Num>)
 
 The number of records desired
-
-=item B<object_cache> (I<HashRef>)
-
-Used internally by Data::Maker to ensure reuse of the field objects for each row.  This is important 
-because certain objects have large data sets inside them.
 
 =item B<data_sources> (I<HashRef>)
 

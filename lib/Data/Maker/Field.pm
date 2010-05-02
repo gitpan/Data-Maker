@@ -1,20 +1,39 @@
 package Data::Maker::Field;
 use Moose::Role;
 
-our $VERSION = '0.17';
+our $VERSION = '0.20';
 
 has name      => ( is => 'rw' );
 has class     => ( is => 'rw' );
 has args      => ( is => 'rw', isa => 'HashRef' );
 #has format    => ( is => 'rw', default => undef );
 has digits    => ( is => 'ro', isa => 'ArrayRef', default => sub { [0..9]             }, lazy => 1);
-has letters   => ( is => 'ro', isa => 'ArrayRef', default => sub { ['a'..'z']         }, lazy => 1 );
-has wordchars => ( is => 'ro', isa => 'ArrayRef', default => sub { [ 0..9, 'a'..'z' ] }, lazy => 1 );
+has letters   => ( is => 'ro', isa => 'ArrayRef', default => sub { ['a'..'z', 'A'..'Z']         }, lazy => 1 );
+has wordchars => ( is => 'ro', isa => 'ArrayRef', default => sub { [ 0..9, 'a'..'z', 'A'..'Z' ] }, lazy => 1 );
 has hex_set   => ( is => 'ro', isa => 'ArrayRef', default => sub { [ 0..255 ]         }, lazy => 1 );
 has value     => ( is => 'rw' );
 has formatted => ( is => 'rw', default => sub { shift->value }  );
 
 requires 'generate_value';
+
+$Data::Maker::Field::Cache = {};
+
+around 'new' => sub {
+  my $orig = shift;
+  my $class = shift;
+  my $args = {@_};
+  my $name = $args->{name};
+  if ($name) {
+    if (my $cached = $Data::Maker::Field::Cache->{$name}) {
+      return $cached; 
+    } 
+  }
+  my $obj = $class->$orig(@_);
+  if ($name) {
+    $Data::Maker::Field::Cache->{$name} = $obj;
+  }
+  return $obj;
+};
 
 sub generate {
   my $this = shift;
