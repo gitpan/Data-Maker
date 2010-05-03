@@ -1,3 +1,7 @@
+0.21 (05.02.2010) - John Ingram <john@funnycow.com>
+  * Removed Data::Maker::Field::Currency from this distribution and created a standalone 
+    distribution for it.
+
 0.20 (05.02.2010) - John Ingram <john@funnycow.com>
   * Significant (and mostly-accidental) performance improvement with Field object caching
   * Removed everything having to do with the "object_cache", due to the above performance

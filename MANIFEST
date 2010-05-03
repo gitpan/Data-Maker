@@ -1,5 +1,4 @@
 lib/Data/Maker/Field/Code.pm
-lib/Data/Maker/Field/Currency.pm
 lib/Data/Maker/Field/DateTime.pm
 lib/Data/Maker/Field/File.pm
 lib/Data/Maker/Field/Format.pm
