@@ -1,3 +1,7 @@
+0.22 (05.03.2010) - John Ingram <john@funnycow.com>
+  * Once again, I neglected to update the version number
+    in Makefile.PL.   Added that to my checklist.
+
 0.21 (05.02.2010) - John Ingram <john@funnycow.com>
   * Removed Data::Maker::Field::Currency from this distribution and created a standalone 
     distribution for it.
