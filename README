@@ -28,4 +28,13 @@ ROADMAP
 * There is likely some usefulness in the ability to have Data::Maker generate something other than
   perfectly-clean data.  A defined amount (or a random amount) of dirty or incomplete data is something
   that might make some sense, for the purpose of testing scripts whose job is to identify bad data.
+* I would like to make Data::Maker::Field::Person a separate distribution, particularly because of the
+  Gender class's dependency on Text::GenderFromName.  I think a reasonable rule of thumb about what to 
+  include as a built-in field and what to make a separate package is any field class that has an
+  external CPAN dependency.  For example, Data::Maker::Field::Currency is a perfectly-valid built-in
+  class, but when I decided to outsource the work to Data::Money and its dependencies, I had to 
+  either commit all Data::Maker users to currency dependencies or commit myself to maintaining a separate
+  distribution (and inconveniencing Data::Maker users who want to use the Currency field by making them
+  download a seperate distribution).  Obviously there's a lot of philosophy involved here.
+* Using that same rule of thumb, Data::Maker::Field::DateTime should also be a separate distribution.
 

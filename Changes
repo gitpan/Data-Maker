@@ -1,3 +1,12 @@
+0.23 (05.05.2010) - John Ingram <john@funnycow.com>
+  * Fixed a bug in Data::Maker::Field in which a formatting atom of 0 was ignored...
+    in fact, I think everything after a zero would also be ignored.  (because returning 
+    zero is no better than returning nothing)
+  * Modified Data::Maker::Field::DateTime so that the `start` and `end` parameters can be
+    either a year (as it was originally written) or an actual DateTime object, as I should
+    have written it in the first place. 
+  * Added MooseX::Aliases as a dependency
+
 0.22 (05.03.2010) - John Ingram <john@funnycow.com>
   * Once again, I neglected to update the version number
     in Makefile.PL.   Added that to my checklist.
@@ -18,7 +27,7 @@
     selection between M and F will be made instead of returning a gender of U
   * Updated the benchmarks in Maker.pm, due to performance improvement mentioned above
   * Added benchmarking script to the distribution (t/benchmark.pl)
-  * Added Data::Maker::Field::Number
+  * Added Data::Maker::Field::Number (thanks to Adam Corum for giving me a much more efficient way to do numeric ranges)
   * Added Data::Maker::Field::IP
   * Added Data::Maker::Field::Password
 

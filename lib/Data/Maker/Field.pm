@@ -1,7 +1,7 @@
 package Data::Maker::Field;
 use Moose::Role;
 
-our $VERSION = '0.20';
+our $VERSION = '0.23';
 
 has name      => ( is => 'rw' );
 has class     => ( is => 'rw' );
@@ -54,7 +54,7 @@ sub from_format {
   my $this = shift;
   return unless $this->formatter || $this->format;
   my $out;
-  while(my $atom = $this->next_atom) {
+  while(defined(my $atom = $this->next_atom)) {
     if ($atom eq '\\') {
       $atom .= $this->next_atom;
     }
@@ -83,7 +83,12 @@ sub next_atom {
   my $this = shift;
   my $key = '_working_format';
   $this->{$key} = [ split('', $this->formatter || $this->format) ] unless $this->{$key} ;
-  return shift @{$this->{$key}};
+  my $atom = shift @{$this->{$key}};
+  if (defined($atom)) {
+    return "$atom" #sometimes the atom is a zero.  Returning it as a scalar makes that work.
+  } else {
+    return;
+  }
 }
 
 sub _rand_from_list {

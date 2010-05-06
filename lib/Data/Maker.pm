@@ -3,7 +3,7 @@ use Data::Maker::Record;
 use Moose;
 use Data::Maker::Field::Format;
 
-our $VERSION = '0.20';
+our $VERSION = '0.23';
 
 has fields => ( is => 'rw', isa => 'ArrayRef', auto_deref => 1 );
 has record_count => ( is => 'rw', isa => 'Num' );
@@ -317,7 +317,8 @@ when you need this kind of thing.
 =head1 CONTRIBUTORS
 
 Thanks to my employer, Informatics Corporation of America, for its commitment to Perl and to giving back to the Perl community.
-Thanks to Mark Frost for the idea about optionally seeding the randomness to ensure the same output each time a program is run, if that's what you want to do (turns out this is very useful).
+Thanks to Mark Frost for the idea about optionally seeding the randomness to ensure the same output each time a program is run, if that's what you need to do.
+Thanks to Adam Corum for a very useful idea about how to do numeric ranges more efficiently than my boneheaded idea.
 
 =head1 AUTHOR
 
