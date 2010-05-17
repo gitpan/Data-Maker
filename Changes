@@ -1,3 +1,7 @@
+0.24 (05.15.2010) - John Ingram <john@funnycow.com>
+  * Data::Maker::Field::Number did some pretty dumb things.   Much more straightforward now.
+  * Also changed the type of the `precision` attribute of Data::Maker::Field::Number to PositiveInt
+
 0.23 (05.05.2010) - John Ingram <john@funnycow.com>
   * Fixed a bug in Data::Maker::Field in which a formatting atom of 0 was ignored...
     in fact, I think everything after a zero would also be ignored.  (because returning 

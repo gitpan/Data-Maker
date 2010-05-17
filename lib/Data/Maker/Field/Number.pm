@@ -1,97 +1,58 @@
 package Data::Maker::Field::Number;
 use Data::Maker::Field::Format;
 use Moose;
+use Moose::Util::TypeConstraints;
 use MooseX::Aliases;
 with 'Data::Maker::Field';
 use Data::Dumper;
 
-our $VERSION = '0.20';
+our $VERSION = '0.24';
 
-has int_digits_between => ( is => 'rw', isa => 'ArrayRef');
+subtype 'PositiveInt'
+  => as 'Int'
+  => where { $_ > 0 }
+  => message { "The number you provided, $_, was not a positive number" };
+
 has thousands_separator => ( is => 'rw', default => ',');
 has decimal_separator => ( is => 'rw', default => '.');
 has separate_thousands => ( is => 'rw', isa => 'Bool', default => 0, alias => 'commafy');
 has min => ( is => 'rw', isa => 'Num');
 has max => ( is => 'rw', isa => 'Num');
-has precision => ( is => 'rw', isa => 'Num', default => 0);
-has fixed_precision => ( is => 'rw', isa => 'Bool', default => 0);
+has precision => ( is => 'rw', isa => 'PositiveInt', default => 0);
 has static_decimal => ( is => 'rw', isa => 'Num', default => 0);
-
-has integer => ( is => 'rw', isa => 'Num');
-
-# force the integer to be a well-behaved number... for example
-before integer => sub { 
-  my $this = shift;
-  if ($_[0]) {
-    $_[0] = sprintf("%d", $_[0]);
-  }
-};
-
-has decimal => ( is => 'rw');
-before decimal => sub {
-  my $this = shift;
-  unless($this->fixed_precision) {
-    if ($_[0]) {
-      # get rid of trailing zeroes 
-      $_[0] =~ s/0+$//;
-    }
-  }
-};
 
 sub generate_value {
   my $this = shift;
-  $this->generate_integer; 
-  $this->generate_decimal;
-  return $this->format;
-}
-
-sub generate_integer {
-  my $this = shift;
-  if ($this->int_digits_between) {
-    my $int_format = '\d' x Data::Maker->random( @{$this->int_digits_between} );
-    $this->integer(Data::Maker::Field::Format->new(format => $int_format )->generate_value);
-  } elsif (defined($this->min) && defined($this->max)) {
-    my $format = '%.' . $this->precision . 'f';
-    $this->integer( sprintf("$format", $this->min + rand($this->max - $this->min)));
-  } else {
-    die "Not enough arguments for " . ref($this);
+  my $precision = $this->precision;
+  my $format = "%.${precision}f";
+  my $value = sprintf($format, $this->min + rand($this->max - $this->min));
+  if ($this->static_decimal) {
+    $value = join('.', int($value), $this->static_decimal);
   }
-}
-
-sub generate_decimal {
-  my $this = shift;
-  if (my $value = $this->static_decimal) {
-    $this->decimal($value);
-    return;
+  unless ($this->decimal_separator eq '.') {
+    $value =~ s/\./$this->decimal_separator/e;
   }
-  if ($this->precision) {
-    my $precision_format;
-    if ($this->fixed_precision) {
-      $precision_format = '\d' x $this->precision; 
-    } else {
-      $precision_format = '\d' x Data::Maker->random(1..$this->precision);
-    }
-    $this->decimal(Data::Maker::Field::Format->new(format => $precision_format)->generate_value);
-  } 
-}
-
-sub format {
-  my $this = shift;
+  $this->value($value);
   if ($this->commafy) {
-    return join($this->decimal_separator, $this->commafied, $this->decimal || ());
+    return $this->commafied;
   } else {
-    return join($this->decimal_separator, $this->integer, $this->decimal || ());
+    return $this->value;
   }
 }
 
 sub commafied {
   my $this = shift;
-  my $input = $this->integer;
-  $input = reverse $input;
+  my $value = $this->value;
+  my ($int, $dec) = split(/$this->decimal_separator/, $value);
+  $int = reverse $int;
   my $sep = $this->thousands_separator;
-  $input =~ s<(\d\d\d)(?=\d)(?!\d*\.)><$1$sep>g;
-  $input = reverse $input;
-  return $input;
+  $int =~ s<(\d\d\d)(?=\d)(?!\d*\.)><$1$sep>g;
+  $int = reverse $int;
+  if ($dec) {
+    return join($this->decimal_separator, $int, $dec);  
+  } else {
+    return $int;
+  }
 }
 
 1;
@@ -127,12 +88,6 @@ Data::Maker::Field::Number supports the following L<Moose> attributes:
 
 =over 4
 
-=item * B<int_digits_between> (I<ArrayRef>)
-
-This badly-named attribute defines a range of digit lengths that you want to
-integer portion of the generated number to fall between.  For example, if you
-want a 3-6 digit number, you can set this to C<[3..6]>
-
 =item * B<thousands_separator> (I<Str>)
 
 The string used to separate the thousands of the integer portion of the 
@@ -159,25 +114,11 @@ The maximum number that is to be generated
 =item * B<precision> (I<Num>)
 
 The maximum number of places to which the decimal portion of the number should be generated.
-To ensure that the precision is I<always> the same length, set I<fixed_precision> to a true value.
-
-=item * B<fixed_precision> (I<Bool>)
-
-This attribute causes the decimal portion of the number to always be the length defined by the 
-I<precision> attribute, even if it ends in zeros (which are usually removed).  Defaults to 0.
 
 =item * B<static_decimal> (I<Num>)
 
 If this attribute is defined, the decimal portion of the number is always given that value.  
 For example, if you want random prices that all end with 99 cents, you could set this attribute to .99
-
-=item * B<integer> (I<Num>)
-
-This method gets and sets the integer portion of the number.
-
-=item * B<decimal> (I<Num>)
-
-This method gets and sets the decimal portion of the number.
 
 =back
 
