@@ -55,7 +55,11 @@ my @test_fields = (
   },
   {     
     name => 'datetime',
-    class => 'Data::Maker::Field::DateTime'
+    class => 'Data::Maker::Field::DateTime',
+    args => {
+      start => 1900,
+      end => 2009
+    }
   },
   {     
     name => 'lorem',

@@ -1,3 +1,8 @@
+0.25 (05.17.2010) - John Ingram <john@funnycow.com>
+  * Updated `t/benchmark.pl` -- apparently Data::Maker::Field::DateTime does not work
+    without start and end dates anymore.  Maybe I'll look into that.
+  * Also found that Makefile.PL had the wrong version in 0.24.  Fixed that.
+
 0.24 (05.15.2010) - John Ingram <john@funnycow.com>
   * Data::Maker::Field::Number did some pretty dumb things.   Much more straightforward now.
   * Also changed the type of the `precision` attribute of Data::Maker::Field::Number to PositiveInt

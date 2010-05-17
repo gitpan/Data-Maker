@@ -1,7 +1,7 @@
 use ExtUtils::MakeMaker;
 
 WriteMakefile( 
-        'VERSION'   => 0.23,
+        'VERSION'   => 0.25,
         'NAME'      => 'Data::Maker',
         'PREREQ_PM' => {
           'Moose' => 0,
