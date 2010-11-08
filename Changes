@@ -1,3 +1,7 @@
+0.26 (11.08.2010) - Philip Garrett <philgarr@gmail.com>
+  * Fixed a bug in Data::Maker::Field where fields were being cached
+    globally, causing independent maker objects to clobber each other.
+
 0.25 (05.17.2010) - John Ingram <john@funnycow.com>
   * Updated `t/benchmark.pl` -- apparently Data::Maker::Field::DateTime does not work
     without start and end dates anymore.  Maybe I'll look into that.

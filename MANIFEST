@@ -19,7 +19,8 @@ lib/Data/Maker/Field.pm
 lib/Data/Maker/Record.pm
 lib/Data/Maker/Tutorial.pod
 lib/Data/Maker.pm
-t/00.t
+t/00-basic.t
+t/50-reentrancy.t
 t/benchmark.pl
 Makefile.PL
 MANIFEST

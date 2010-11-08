@@ -1,7 +1,7 @@
 use ExtUtils::MakeMaker;
 
 WriteMakefile( 
-        'VERSION'   => 0.25,
+        'VERSION'   => 0.26,
         'NAME'      => 'Data::Maker',
         'PREREQ_PM' => {
           'Moose' => 0,
@@ -9,5 +9,6 @@ WriteMakefile(
           'DateTime::Event::Random' => 0,
           'Text::GenderFromName' => 0,
           'Text::Lorem' => 0,
+          'Test::More' => 0,
         }
 );

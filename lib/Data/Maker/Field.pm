@@ -1,7 +1,7 @@
 package Data::Maker::Field;
 use Moose::Role;
 
-our $VERSION = '0.23';
+our $VERSION = '0.26';
 
 has name      => ( is => 'rw' );
 has class     => ( is => 'rw' );
@@ -15,25 +15,6 @@ has value     => ( is => 'rw' );
 has formatted => ( is => 'rw', default => sub { shift->value }  );
 
 requires 'generate_value';
-
-$Data::Maker::Field::Cache = {};
-
-around 'new' => sub {
-  my $orig = shift;
-  my $class = shift;
-  my $args = {@_};
-  my $name = $args->{name};
-  if ($name) {
-    if (my $cached = $Data::Maker::Field::Cache->{$name}) {
-      return $cached; 
-    } 
-  }
-  my $obj = $class->$orig(@_);
-  if ($name) {
-    $Data::Maker::Field::Cache->{$name} = $obj;
-  }
-  return $obj;
-};
 
 sub generate {
   my $this = shift;
