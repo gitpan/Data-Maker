@@ -1,3 +1,6 @@
+Changes
+lib/Data/Maker.pm
+lib/Data/Maker/Field.pm
 lib/Data/Maker/Field/Code.pm
 lib/Data/Maker/Field/DateTime.pm
 lib/Data/Maker/Field/File.pm
@@ -7,7 +10,6 @@ lib/Data/Maker/Field/IP.pm
 lib/Data/Maker/Field/Lorem.pm
 lib/Data/Maker/Field/MultiSet.pm
 lib/Data/Maker/Field/Number.pm
-lib/Data/Maker/Field/Set.pm
 lib/Data/Maker/Field/Password.pm
 lib/Data/Maker/Field/Person.pm
 lib/Data/Maker/Field/Person/FirstName.pm
@@ -15,14 +17,17 @@ lib/Data/Maker/Field/Person/Gender.pm
 lib/Data/Maker/Field/Person/LastName.pm
 lib/Data/Maker/Field/Person/MiddleName.pm
 lib/Data/Maker/Field/Person/SSN.pm
-lib/Data/Maker/Field.pm
+lib/Data/Maker/Field/Set.pm
 lib/Data/Maker/Record.pm
 lib/Data/Maker/Tutorial.pod
-lib/Data/Maker.pm
-t/00-basic.t
-t/50-reentrancy.t
-t/benchmark.pl
+lib/Data/Maker/Value.pm
 Makefile.PL
 MANIFEST
 README
-Changes
+t/00-compile.t
+t/01-basic.t
+t/02-random.t
+t/03-format.t
+t/04-reentrancy.t
+t/benchmark.pl
+META.yml                                 Module meta-data (added by MakeMaker)

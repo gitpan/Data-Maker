@@ -1,9 +1,10 @@
 package Data::Maker;
 use Data::Maker::Record;
 use Moose;
+use Data::Maker::Value;
 use Data::Maker::Field::Format;
 
-our $VERSION = '0.26';
+our $VERSION = '0.27';
 
 has fields => ( is => 'rw', isa => 'ArrayRef', auto_deref => 1 );
 has record_count => ( is => 'rw', isa => 'Num' );
@@ -24,7 +25,12 @@ sub BUILD {
   }
 }
 
-sub reset { shift->generated(0) }
+sub reset {
+  my $this = shift;
+  $this->generated(0);
+  delete $this->{_field_objects};
+  return;
+}
 
 sub field_by_name {
   my ($this, $name) = @_;
@@ -35,20 +41,30 @@ sub field_by_name {
   }
 }
 
+sub _field_objects {
+  my $this = shift;
+  return $this->{_field_objects} ||= do {
+    my @field_objects;
+    for my $field($this->fields) {
+      if (my $class = $field->{class}) {
+        $field->{args}->{name} = $field->{name};
+        push @field_objects, $class->new( $field->{args} ? %{$field->{args}} : () );
+      }
+      elsif ($field->{format}) {
+        push @field_objects, Data::Maker::Field::Format->new( format => $field->{format} );
+      }
+    }
+    \@field_objects
+  };
+}
+
 sub next_record {
   my $this = shift;
   return if $this->generated >= $this->record_count;
   my $record = {};
   $this->{_in_progress} = $record;
-  for my $field($this->fields) {
-    if (my $class = $field->{class}) {
-      $field->{args}->{name} = $field->{name};
-      my $object = $class->new( $field->{args} ? %{$field->{args}} : () );
-      $record->{ $field->{name} } = $object->generate($this);
-    } elsif ($field->{format}) {
-      my $object = Data::Maker::Field::Format->new( format => $field->{format} );
-      $record->{ $field->{name} } = $object->generate($this);
-    }
+  for my $field (@{ $this->_field_objects }) {
+    $record->{ $field->name } = Data::Maker::Value->new($field->generate($this)->value);
   }
   my $obj = Data::Maker::Record->new(data => $record, fields => [$this->fields], delimiter => $this->delimiter );
   $this->generated( $this->generated + 1 );
@@ -74,14 +90,14 @@ sub header {
 
 sub random {
   my $class = shift;
-  my @choices;
-  if (ref($_[0]) eq 'ARRAY') {
-    my $choices = shift;
-    @choices = @{$choices}; 
-  } else {
-    @choices = @_;
+  my $choices;
+  if (@_ == 1 && ref($_[0]) eq 'ARRAY') {
+    $choices = shift;
   }
-  return $choices[ rand @choices];
+  else {
+    $choices = \@_;
+  }
+  return $choices->[ rand scalar @$choices ];
 }
 
 sub add_field {

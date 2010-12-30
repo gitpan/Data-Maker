@@ -2,7 +2,7 @@
 use strict;
 use warnings; 
 
-use Test::More tests => 4;
+use Test::More tests => 6;
 
 BEGIN { use_ok('Data::Maker'); }
 BEGIN { use_ok('Data::Maker::Field::Person::FirstName'); }
@@ -20,3 +20,6 @@ ok($maker, "created new instance ok");
 my $record = $maker->next_record;
 ok($record, "creates a record ok");
 #$record->firstname->value);
+
+ok($record->firstname->value, "field returns a value");
+is($record->firstname->value, $record->firstname.'', "field stringifies");
