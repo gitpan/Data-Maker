@@ -1,3 +1,13 @@
+0.28 (07.18.2010) - Philip Garrett <philgarr@gmail.com>
+  * Fixed a bug in Data::Maker that caused the return value of in_progress to
+    be wrong when the field object it should have returned had a false value().
+
+0.27 (12.30.2010) - Philip Garrett <philgarr@gmail.com>
+  * improved efficiency of random() with large arrays
+  * removed obsolete formatter() method
+  * speed improvements for formats
+  * more caching
+
 0.26 (11.08.2010) - Philip Garrett <philgarr@gmail.com>
   * Fixed a bug in Data::Maker::Field where fields were being cached
     globally, causing independent maker objects to clobber each other.

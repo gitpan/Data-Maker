@@ -29,5 +29,6 @@ t/01-basic.t
 t/02-random.t
 t/03-format.t
 t/04-reentrancy.t
+t/05-bugs.t
 t/benchmark.pl
 META.yml                                 Module meta-data (added by MakeMaker)

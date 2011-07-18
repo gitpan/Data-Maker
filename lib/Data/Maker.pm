@@ -4,7 +4,7 @@ use Moose;
 use Data::Maker::Value;
 use Data::Maker::Field::Format;
 
-our $VERSION = '0.27';
+our $VERSION = '0.28';
 
 has fields => ( is => 'rw', isa => 'ArrayRef', auto_deref => 1 );
 has record_count => ( is => 'rw', isa => 'Num' );
@@ -77,7 +77,7 @@ sub next_record {
 sub in_progress {
   my ($this, $name) = @_;
   if (my $prog = $this->{_in_progress}) {
-    if (my $field = $prog->{$name}) {
+    if (defined(my $field = $prog->{$name})) {
       return $field->value;
     }
   }

@@ -1,8 +1,8 @@
 use ExtUtils::MakeMaker;
 
 WriteMakefile( 
-        'VERSION'   => 0.27,
-        'NAME'      => 'Data::Maker',
+        'VERSION_FROM' => 'lib/Data/Maker.pm',
+        'NAME'         => 'Data::Maker',
         'PREREQ_PM' => {
           'Moose' => 0,
           'MooseX::Aliases' => 0,

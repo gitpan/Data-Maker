@@ -1,7 +1,7 @@
 package Data::Maker::Field;
 use Moose::Role;
 
-our $VERSION = '0.27';
+our $VERSION = '0.28';
 
 has name      => ( is => 'rw' );
 has class     => ( is => 'rw' );
