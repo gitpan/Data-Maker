@@ -1,3 +1,8 @@
+0.29 (02.23.2013) - John Ingram<john@funnycow.com>
+  * added relative date support, so you can define one DateTime field that is 
+    either a fixed or random duration away from another DateTime field.
+  * You can also make it relative to 'now' or 'today', instead of referring to another field.
+
 0.28 (07.18.2010) - Philip Garrett <philgarr@gmail.com>
   * Fixed a bug in Data::Maker that caused the return value of in_progress to
     be wrong when the field object it should have returned had a false value().
